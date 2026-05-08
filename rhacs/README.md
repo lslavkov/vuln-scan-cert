@@ -24,8 +24,18 @@ $ envsubst < rh-openid-credentials/rh-openid-credentials.template.yaml | oc appl
 ### Apply RHACS Tasks and Pipeline definitions
 
 ```shell
-oc apply -f tasks/
-oc apply -f pipeline/
+$ oc apply -f tasks/
+$ oc apply -f pipeline/
 ```
 
+### Build Container images used in python steps
 
+```shell
+$ oc new-build --name python3-with-requests --binary --strategy docker
+$ oc patch bc/python3-with-requests -p '{"spec":{"strategy":{"dockerStrategy":{"dockerfilePath":"Containerfile"}}}}'
+$ oc start-build python3-with-requests --from-dir=./python-with-requests --follow
+```
+
+The image is now available in the internal registry `image-registry.openshift-image-registry.svc:5000/default/python3-with-requests:latest`.
+
+It is used in steps that run Python code and require the `requests` module.

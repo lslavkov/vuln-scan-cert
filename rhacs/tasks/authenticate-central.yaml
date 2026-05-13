@@ -36,12 +36,11 @@ spec:
       script: |
         #!/bin/env python
         import os
-        import time
         import requests
 
         ROX_ENDPOINT = os.getenv("ROX_ENDPOINT")
         OCM_TOKEN = os.getenv("OCM_TOKEN")
-        payload = { "idToken": OCM_TOKEN}
+        payload = { "idToken": OCM_TOKEN }
         response = requests.post(f"{ROX_ENDPOINT}/v1/auth/m2m/exchange", json=payload)
 
         if response.status_code != 200:

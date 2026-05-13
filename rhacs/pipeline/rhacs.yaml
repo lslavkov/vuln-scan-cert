@@ -31,8 +31,16 @@ spec:
       workspaces:
         - name: binaries
           workspace: bin
+    - name: wait-for-scanner-init
+      taskRef:
+        kind: Task
+        name: wait-for-scanner-init
+      params:
+        - name: rox-endpoint
+          value: $(tasks.provision-central.results.rox-endpoint)
+        - name: rox-api-token
+          value: $(tasks.authenticate-central.results.rox-api-token)
 
-    # - name: wait-for-scanner-init
     # - name: run-image-scan
     # - name: upload-result
   params:
@@ -52,6 +60,5 @@ spec:
       workspaces:
         - name: binaries
           workspace: bin
-
   workspaces:
     - name: bin

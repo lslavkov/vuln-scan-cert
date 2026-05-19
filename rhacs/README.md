@@ -42,6 +42,14 @@ $ oc patch cm feature-flags -n openshift-pipelines -p '{"data":{"max-result-size
 
 This is required due to the size of the `ROX_API_TOKEN`, exceeding the default 4096 bytes.
 
+### Enable feature flag for Enum parameters
+
+```shell
+$ oc patch cm feature-flags -n openshift-pipelines -p '{"data":{"enable-param-enum":"true"}}'
+```
+
+This allows us to perform input validation using a list of authorized values.
+
 ### Build Container images used in python steps
 
 ```shell

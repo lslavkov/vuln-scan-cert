@@ -45,9 +45,9 @@ spec:
     - image: registry.redhat.io/ubi8/ubi-minimal
       name: ocm-login
       results:
-      - name: ocm-token
-        type: string
-        description: Token generated when logging into OCM using Service Account credentials
+        - name: ocm-token
+          type: string
+          description: Token generated when logging into OCM using Service Account credentials
       script: |
         #!/bin/sh
         ./ocm login --client-id ${CLIENT_ID} --client-secret ${CLIENT_SECRET}
@@ -119,7 +119,6 @@ spec:
           f.write(central_id)
         with open('$(results.central-id.path)', 'w') as f:
           f.write(central_id)
-
     - image: image-registry.openshift-image-registry.svc:5000/default/python3-with-requests:latest
       name: wait-for-central-ready
       script: |

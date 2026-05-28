@@ -32,9 +32,9 @@ spec:
     - image: image-registry.openshift-image-registry.svc:5000/default/python3-with-requests:latest
       name: authenticate-central
       results:
-      - name: rox-api-token
-        type: string
-        description: OIDC Token for ACS authentication, obtained after exchanching the OCM token
+        - name: rox-api-token
+          type: string
+          description: OIDC Token for ACS authentication, obtained after exchanching the OCM token
       script: |
         #!/bin/env python
         import os

@@ -19,8 +19,8 @@ spec:
     - image: image-registry.openshift-image-registry.svc:5000/default/python3-with-requests:latest
       name: wait-for-scanner-init
       results:
-      - name: rox-api-token
-        type: string
+        - name: rox-api-token
+          type: string
       script: |
         #!/bin/env python
         import os

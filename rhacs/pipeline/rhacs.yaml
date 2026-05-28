@@ -48,9 +48,8 @@ spec:
           value: $(tasks.authenticate-central.results.rox-api-token)
       runAfter:
         - authenticate-central
-
-    # - name: run-image-scan
-    # - name: upload-result
+        # - name: run-image-scan
+        # - name: upload-result
   params:
     - name: image
       type: string

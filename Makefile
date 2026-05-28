@@ -1,6 +1,6 @@
 .PHONY: install-hooks lint lint-yaml format-check format-yaml clean help
 
-SHELL := /bin/bash
+SHELL := $(shell echo $$SHELL)
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
@@ -25,7 +25,7 @@ format: ## Auto-format Python and YAML code
 format-check: ## Check formatting without changes
 	ruff format --check .
 	ruff check .
-	pre-commit run yamlfmt --all-files
+	yamlfmt --lint .
 
 format-yaml:
 	pre-commit run yamlfmt --all-files || true

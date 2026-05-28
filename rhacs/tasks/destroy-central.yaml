@@ -26,9 +26,9 @@ spec:
     - image: registry.redhat.io/ubi8/ubi-minimal
       name: ocm-login
       results:
-      - name: ocm-token
-        type: string
-        description: OCM Token
+        - name: ocm-token
+          type: string
+          description: OCM Token
       script: |
         #!/bin/sh
         ./ocm login --client-id ${CLIENT_ID} --client-secret ${CLIENT_SECRET}

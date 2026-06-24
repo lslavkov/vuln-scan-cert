@@ -3,6 +3,9 @@ kind: Pipeline
 metadata:
   name: rhacs
 spec:
+  timeouts:
+    tasks: "2h0m0s"
+    finally: "2h0m0s"
   tasks:
     - name: provision-central
       taskRef:

@@ -5,7 +5,6 @@ import json
 import os
 import re
 import sys
-from pathlib import Path
 
 
 def load_json_data(file_path):
@@ -18,7 +17,7 @@ def load_json_data(file_path):
     except json.JSONDecodeError as e:
         raise ValueError(f"Invalid JSON format in file {file_path}: {e}")
     except Exception as e:
-        raise IOError(f"Error reading file {file_path}: {e}")
+        raise OSError(f"Error reading file {file_path}: {e}")
 
     return data
 
@@ -93,7 +92,7 @@ def write_csv_data(csv_data, output_path):
                 writer.writerows(csv_data)
         print(f"Successfully wrote {len(csv_data)} records to {output_path}")
     except Exception as e:
-        raise IOError(f"Error writing CSV file {output_path}: {e}")
+        raise OSError(f"Error writing CSV file {output_path}: {e}")
 
 
 def main():

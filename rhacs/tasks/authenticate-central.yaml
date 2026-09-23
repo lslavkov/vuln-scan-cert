@@ -4,6 +4,10 @@ metadata:
   name: authenticate-central
 spec:
   params:
+    - name: roxctl-version
+      type: string
+      description: Version of roxctl to use
+      default: "4.9.2"
     - name: rox-endpoint
       type: string
       description: Central UI Endpoint
@@ -30,7 +34,21 @@ spec:
   steps:
     - image: registry.redhat.io/ubi8/ubi-minimal
       name: install-roxctl
+      env:
+        - name: ROXCTL_VERSION
+          value: $(params.roxctl-version)
       command: ["/scripts/shell/install-roxctl.sh"]
+      volumeMounts:
+        - name: shell-scripts
+          mountPath: /scripts/shell
+          readOnly: true
+      workingDir: $(workspaces.binaries.path)
+    - image: registry.redhat.io/ubi8/ubi-minimal
+      name: checksum-roxctl
+      command: ["/scripts/shell/checksum-roxctl.sh"]
+      env:
+        - name: ROXCTL_VERSION
+          value: $(params.roxctl-version)
       volumeMounts:
         - name: shell-scripts
           mountPath: /scripts/shell

@@ -15,6 +15,7 @@ generatorOptions:
 configMapGenerator:
   - name: rhacs-shell-scripts
     files:
+      - scripts/shell/checksum-roxctl.sh
       - scripts/shell/install-ocm.sh
       - scripts/shell/install-roxctl.sh
       - scripts/shell/ocm-token.sh

@@ -36,6 +36,12 @@ spec:
           value: $(tasks.provision-central.results.rox-endpoint)
         - name: roxctl-version
           value: $(params.roxctl-version)
+        - name: creds-secret-name
+          value: rhacs-creds-$(context.pipelineRun.uid)
+        - name: pipelinerun-name
+          value: $(context.pipelineRun.name)
+        - name: pipelinerun-uid
+          value: $(context.pipelineRun.uid)
       runAfter:
         - provision-central
       workspaces:
@@ -50,8 +56,8 @@ spec:
           value: $(params.registry-redhat-creds-secret)
         - name: rox-endpoint
           value: $(tasks.provision-central.results.rox-endpoint)
-        - name: rox-api-token
-          value: $(tasks.authenticate-central.results.rox-api-token)
+        - name: creds-secret-name
+          value: rhacs-creds-$(context.pipelineRun.uid)
       runAfter:
         - authenticate-central
     - name: wait-for-scanner-init
@@ -61,8 +67,8 @@ spec:
       params:
         - name: rox-endpoint
           value: $(tasks.provision-central.results.rox-endpoint)
-        - name: rox-api-token
-          value: $(tasks.authenticate-central.results.rox-api-token)
+        - name: creds-secret-name
+          value: rhacs-creds-$(context.pipelineRun.uid)
       runAfter:
         - configure-central
     - name: run-image-scan
@@ -78,8 +84,8 @@ spec:
       params:
         - name: rox-endpoint
           value: $(tasks.provision-central.results.rox-endpoint)
-        - name: rox-api-token
-          value: $(tasks.authenticate-central.results.rox-api-token)
+        - name: creds-secret-name
+          value: rhacs-creds-$(context.pipelineRun.uid)
         - name: insecure-skip-tls-verify
           value: "true"
       workspaces:
@@ -185,6 +191,13 @@ spec:
       workspaces:
         - name: binaries
           workspace: bin
+    - name: cleanup-creds
+      taskRef:
+        kind: Task
+        name: cleanup-creds
+      params:
+        - name: creds-secret-name
+          value: rhacs-creds-$(context.pipelineRun.uid)
   workspaces:
     - name: bin
     - name: scan-results

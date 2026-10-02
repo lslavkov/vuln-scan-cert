@@ -100,14 +100,16 @@ spec:
           value: $(results.central-id.path)
     - image: image-registry.openshift-image-registry.svc:5000/default/python3-with-requests:latest
       name: wait-for-central-ready
-      command: ["python", "/scripts/python/wait-for-central-ready.py"]
+      command: ["/bin/sh", "-c"]
+      args:
+        - export OCM_TOKEN="$(cat "$OCM_TOKEN_FILE")"; exec python /scripts/python/wait-for-central-ready.py
       volumeMounts:
         - name: python-scripts
           mountPath: /scripts/python
           readOnly: true
       env:
-        - name: OCM_TOKEN
-          value: $(steps.ocm-login.results.ocm-token)
+        - name: OCM_TOKEN_FILE
+          value: $(workspaces.binaries.path)/ocm-token
         - name: CENTRAL_ID
           value: $(steps.provision-central.results.central-id)
         - name: ROX_ENDPOINT_PATH

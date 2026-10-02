@@ -11,9 +11,6 @@ spec:
     - name: rox-endpoint
       type: string
       description: Central UI Endpoint
-    - name: ocm-token
-      type: string
-      description: Token generated when logging into OCM using Service Account credentials
     - name: creds-secret-name
       type: string
       description: Name of the per-run Secret to store the ROX API token in
@@ -64,7 +61,9 @@ spec:
       workingDir: $(workspaces.binaries.path)
     - image: image-registry.openshift-image-registry.svc:5000/default/python3-with-requests:latest
       name: authenticate-central
-      command: ["python", "/scripts/python/authenticate-central.py"]
+      command: ["/bin/sh", "-c"]
+      args:
+        - export OCM_TOKEN="$(cat "$OCM_TOKEN_FILE")"; exec python /scripts/python/authenticate-central.py
       volumeMounts:
         - name: python-scripts
           mountPath: /scripts/python
@@ -72,8 +71,8 @@ spec:
         - name: credentials
           mountPath: /credentials
       env:
-        - name: OCM_TOKEN
-          value: $(params.ocm-token)
+        - name: OCM_TOKEN_FILE
+          value: $(workspaces.binaries.path)/ocm-token
         - name: ROX_ENDPOINT
           value: $(params.rox-endpoint)
         - name: ROX_API_TOKEN_FILE

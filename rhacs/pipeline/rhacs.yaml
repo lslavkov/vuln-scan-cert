@@ -30,8 +30,6 @@ spec:
         kind: Task
         name: authenticate-central
       params:
-        - name: ocm-token
-          value: $(tasks.provision-central.results.ocm-token)
         - name: rox-endpoint
           value: $(tasks.provision-central.results.rox-endpoint)
         - name: roxctl-version

@@ -10,6 +10,10 @@ spec:
     - name: creds-secret-name
       type: string
       description: Name of the per-run Secret holding the ROX API token
+  results:
+    - name: scanner-version
+      type: string
+      description: RHACS Central version retrieved from /v1/metadata
   stepTemplate:
     computeResources: {}
     securityContext:
@@ -35,3 +39,20 @@ spec:
             secretKeyRef:
               name: $(params.creds-secret-name)
               key: "rox-api-token"
+    - image: image-registry.openshift-image-registry.svc:5000/default/python3-with-requests:latest
+      name: get-rhacs-version
+      command: ["python", "/scripts/python/get-rhacs-version.py"]
+      volumeMounts:
+        - name: python-scripts
+          mountPath: /scripts/python
+          readOnly: true
+      env:
+        - name: ROX_ENDPOINT
+          value: $(params.rox-endpoint)
+        - name: ROX_API_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: $(params.creds-secret-name)
+              key: "rox-api-token"
+        - name: STEP_RESULT_PATH
+          value: $(results.scanner-version.path)

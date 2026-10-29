@@ -33,4 +33,5 @@ configMapGenerator:
       - scripts/python/wait-for-central-delete.py
       - scripts/python/wait-for-central-ready.py
       - scripts/python/wait-for-scanner-init.py
+      - scripts/python/get-rhacs-version.py
       - scripts/python/json-to-csv.py
